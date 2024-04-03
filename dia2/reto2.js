@@ -1,6 +1,6 @@
-const fs = require("fs");
-const { log } = require('console');
-const promise= require('fs/promises');
+
+
+const fs= require('fs/promises');
 
 
 
@@ -11,33 +11,59 @@ let person={name:"alberto" , surname:"llorente" , age:20};
 // Utilizando los métodos writeFile y readFile, guarda el objeto en un archivo con extensión .json y lee el
 // objeto e imprimelo por consola.
 
-function metoDato(persona){
+// aqui ya nos devuelve una promesa
+fs.writeFile('./person.json' , JSON.stringify(person))
 
-    let escribodato=new Promise((resolve, reject)=>
-    {
-        if(persona){
-            let escrito= fs.writeFile('./person.json' , JSON.stringify(persona) ,()=>{
+// capturo la promesa que devuelve 
 
-                fs.readFile('./person.json', ((error, data)=> {
+.then(()=>{
+    // hacemos el return de lo que nos devuelve el metodo readFile
+    return fs.readFile('./person.json'  );
 
-                    console.log( JSON.parse(data));
+
+    
+})
+
+.then((resultado)=>{
+    console.log(JSON.parse(resultado));
+})
+
+.catch((error)=>{
+
+    console.log('error' , error);
+})
+
+
+// declaro la funcion que devuelva la promesa 
+// function metoDato(persona){
+
+//     // declaro  el objeto de tipo promesa 
+//     let escribodato=new Promise((resolve, reject)=>
+//     {
+//         // meto los resolve y el reject en caso de error 
+//         if(persona){
+//             let escrito= fs.writeFile('./person.json' , JSON.stringify(persona) ,()=>{
+
+//                 fs.readFile('./person.json', ((error, data)=> {
+
+//                     console.log( JSON.parse(data));
                 
-                  }) )
-            });
-            resolve ('conseguido')
-        }else{
-            let error={}
-             error={mensaje:'no has puesto lo correcto'}
-            reject(error)
+//                   }) )
+//             });
+//             resolve ('conseguido')
+//         }else{
+//             let error={}
+//              error={mensaje:'no has puesto lo correcto'}
+//             reject(error)
 
 
-        }
+//         }
 
-    })
-    return escribodato;
-};
+//     })
+//     return escribodato;
+// };
 
-metoDato(person)
+// metoDato(person)
 
-.then(conseguido=>{console.log('conseguido')})
-.catch(error => {console.log(error);})
+// .then(conseguido=>{console.log('conseguido')})
+// .catch(error => {console.log(error);})
